@@ -1,0 +1,62 @@
+﻿
+<aside>
+
+    <nav>
+        <a href="/Dashboard/Dashboard">Dashboard</a>
+        <a href="/Budget/Add">Add Budget</a>
+        <a href="/Budget/Records">Budget History</a>
+        <a href="/Report/Summary">Summary / Chartz</a>
+        <a href="/Account/Logout">Logout</a>
+    </nav>
+
+</aside>
+
+<main>
+
+    <div class="dashboard-header">
+    <h1>Student Allowance & Expense Tracker</h1>
+    <p>Welcome, @ViewBag.Username!</p>
+    </div>
+
+
+    <div class="dashboard-status">
+        <div class="status-box"><strong>Total Allowance:</strong> ₱@ViewBag.TotalAllowance</div>
+        <div class="status-box"><strong>Total Expenses:</strong> ₱@ViewBag.TotalExpenses</div>
+        <div class="status-box"><strong>Remaining Balance:</strong> ₱@ViewBag.RemainingBalance</div>
+
+    </div>
+
+    <div class="dashboard-recent">
+        <h2>Recent Transaction</h2>
+
+        <table class="record-container">
+
+            <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Allowance</th>
+                <th>Expenses</th>
+            </tr>
+
+            @foreach (var item in ViewBag.RecentTransactions)
+            {
+                <tr>
+                    <td>@item.Date.ToShortDateString()</td>
+                    <td>@item.Description</td>
+                    <td>$@item.Allowance</td>
+                    <td>$@item.Expenses</td>
+                </tr>
+            }
+
+        </table>
+
+    </div>
+
+    <div class="dashboard-bottom-btn">
+    <a href="/Budget/Add" class="add-btn">Add Budget</a>
+    <a href="/Budget/Records" class="add-btn">View Records</a>
+
+    </div>
+
+
+</main>

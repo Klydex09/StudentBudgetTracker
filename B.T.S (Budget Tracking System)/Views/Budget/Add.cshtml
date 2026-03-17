@@ -1,0 +1,52 @@
+﻿
+<aside>
+
+    <nav>
+        <a href="/Dashboard/Dashboard">Dashboard</a>
+        <a href="/Budget/Add">Add Budget</a>
+        <a href="/Budget/Records">Budget History</a>
+        <a href="/Report/Summary">Summary / Chartz</a>
+        <a href="/Account/Logout">Logout</a>
+    </nav>
+
+</aside>
+
+<main>
+<div class="add-container">
+
+    <h1 class="add-title">💳 Add Budget</h1>
+
+    <form method="post" class="add-form">
+
+         <div class="add-group">
+            <label>Allowance</label>
+            <input type="number" name="Allowance" step="0.01" placeholder="Enter amount">
+        </div>
+
+        <div class="add-group">
+            <label>Expenses</label>
+            <input type="number" name="Expenses" step="0.01" placeholder="Enter amount" required>
+        </div>
+
+        <div class="add-group">
+            <label>Description</label>
+            <input type="text" name="Description" placeholder="Enter description" required>
+        </div> 
+
+        <div class="add-group">
+            <label>Type</label>
+            <select name="Category">
+                <option>None</option>
+                <option>Food</option>
+                <option>Transportation</option>
+                <option>School</option>
+
+            </select>
+        </div>
+
+        <button type="submit" class="add-btn">Add Budget</button>
+
+    </form>
+
+</div>
+</main>

@@ -1,0 +1,322 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #FFFFFF;
+    color: #333;
+}
+header {
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #014d4e;
+    color: #000000;
+    padding: 0 20px;
+    z-index: 100;
+}
+    header h2 {
+        color: #FFFFFF;
+        align-content: center;
+        padding: 10px;
+        font-family: Impact;
+        letter-spacing: 2px;
+    }
+    header a {
+        color: #FFFFFF;
+        text-decoration: none;
+        padding: 10px 15px;
+    }
+
+/*Main-Aside-Content*/
+aside {
+    position: fixed;
+    left: 0;
+    top: 66px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    background: #014d4e;
+    width: 200px;
+    z-index: 0;
+}
+
+    aside nav {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+        aside nav a {
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            padding: 15px;
+            transition: background 0.3s ease;
+        }
+
+            aside nav a:hover {
+                background: #d99201;
+                color: white;
+                transition: 0.1s ease;
+            }
+
+
+main {
+    margin-top: 20px;
+    margin-left: 10%;
+}
+    main h1, p {
+        text-align: center;
+        color: #FFFFFF;
+        margin-bottom: 20px;
+    }
+    main h1{
+
+    }
+
+
+/*Login Page*/
+.login-container {
+    margin-left: 15%;
+    margin-top: 10%;
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    height: 450px;
+    background: #ccc;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+    .login-container h1, p {
+        margin: 10px;
+        text-align: center;
+        color: #333;
+    }
+
+    .login-container .login-form {
+        font-family: 'Times New Roman', Times, serif;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+        .login-container .login-form input {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+
+        .login-container .login-form button {
+            font-size: large;
+            letter-spacing: 5px;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(to left, #00ff9d, #87e8b3);
+            color: #fff;
+            cursor: pointer;
+        }
+
+
+/* ADD BUDGET FORM CONTAINER */
+.add-container {
+    width: 400px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.5);
+}
+
+/* TITLE */
+.add-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+/* FORM GROUP */
+.add-group {
+    margin-bottom: 15px;
+}
+
+    .add-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    /* INPUT FIELDS */
+    .add-group input,
+    .add-group select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        transition: 0.2s;
+    }
+
+        /* INPUT FOCUS */
+        .add-group input:focus,
+        .add-group select:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+/* ADD BUTTON */
+.add-btn {
+    width: 100%;
+    padding: 12px;
+    background: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+    /* BUTTON HOVER */
+    .add-btn:hover {
+        background: #219150;
+    }
+
+/*Budget Records*/
+.record-container {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
+}
+/* TITLE */
+.record-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+    /* HEADER */
+.record-container thead {
+    background: #2c3e50;
+    color: white;
+}
+
+.record-container th {
+    padding: 12px;
+    text-align: center;
+}
+
+    /* ROWS */
+.record-container td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+.record-container a {
+    width: 100%;
+    text-decoration: none;
+    padding: 12px;
+    margin: 5px 0;
+    background: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+    /* HOVER EFFECT */
+    .record-container tbody tr:hover {
+        background: #f1f1f1;
+    }
+    /* ALLOWANCE STYLE */
+    .type.allowance {
+        color: #27ae60;
+        font-weight: bold;  
+    }
+    /* EXPENSE STYLE */
+    .type.expense {
+        color: #e74c3c;
+        font-weight: bold;
+    }
+    /* Dashboard  */
+.dashboard-header {
+    background: #2c3e50;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px 10px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+        .dashboard-header p {
+            color: white;
+            font-size: 18px;
+            margin-top: 5px;
+            text-align: left;
+        }
+    /* Status Boxes */
+    .dashboard-status {
+        display: flex;
+        gap: 15px;
+        margin: 20px 0;
+    }
+
+    .status-box {
+        flex: 1;
+        background: #34495e;
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .dashboard-bottom-btn {
+        display: flex;
+        gap: 15px;
+        padding: 15px;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+        .dashboard-bottom-btn a {
+            flex: 1;
+            background: #27ae60;
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+.daily-chart {
+    display: flex;
+    margin: 40px auto;
+    padding: 20px;
+
+}
+    .daily-chart select {
+        padding: 10px 50px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
+        margin-bottom: 20px;
+    }
+    .daily-chart canvas {
+        width: 100%;
+        height: 300px;
+        
+            
+    }

@@ -1,0 +1,89 @@
+﻿
+<aside>
+
+    <nav>
+        <a href="/Dashboard/Dashboard">Dashboard</a>
+        <a href="/Budget/Add">Add Budget</a>
+        <a href="/Budget/Records">Budget History</a>
+        <a href="/Report/Summary">Summary / Chartz</a>
+        <a href="/Account/Logout">Logout</a>
+    </nav>
+
+</aside>
+
+<main>
+    <div class="dashboard-header">
+        <h1>SUMMARY CHARTS</h1>
+    </div>
+
+    <div class="dashboard-status">
+        <div class="status-box"><strong>Total Allowance:</strong> ₱@ViewBag.TotalAllowance</div>
+        <div class="status-box"><strong>Total Expenses:</strong> ₱@ViewBag.TotalExpenses</div>
+        <div class="status-box"><strong>Remaining Balance:</strong> ₱@ViewBag.RemainingBalance</div>
+
+    </div>
+
+
+    <div class="daily-chart">
+        <form method="get">       
+
+            <select name="filter" onchange="this.form.submit()">    
+
+                <option value="daily" selected="@("daily" == ViewBag.Filter)">Daily</option>
+                <option value="weekly" selected="@("weekly" == ViewBag.Filter)">Weekly</option>
+                <option value="monthly" selected="@("monthly" == ViewBag.Filter)">Monthly</option>
+
+            </select>
+
+        </form>
+
+        <div style="width:350px; margin:auto;">
+            <canvas id="chart"></canvas>
+        </div>
+    </div>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+  
+
+
+
+        <script>
+
+            var labels = @Html.Raw(ViewBag.Labels);
+            var data = @Html.Raw(ViewBag.Data);
+
+            console.log(labels);
+            console.log(data);
+
+            var ctx = document.getElementById('chart');
+
+            if (ctx) {
+            new Chart(ctx, {
+            type: 'pie',
+            data: {
+            labels: labels,
+            datasets: [{
+            label: 'Budget Description: $',
+            data: data,
+            backgroundColor: [
+            'lightblue',
+            'lightcoral',
+            'lightgreen',
+            'lightcyan',
+            'lightgrey'
+            ],
+            borderColor: 'black',
+            borderWidth: 1
+            }]
+            }
+            });
+            } else {
+            console.log("Canvas not found");
+            }
+
+        </script>
+
+</main>
