@@ -19,11 +19,8 @@ namespace StudentBudgetTracker.Controllers
             budget.Date = DateTime.Now; // set current date
             budget.Id = nextId++; // assign ID
 
-            decimal previousBalance =
-                BudgetList.LastOrDefault()?.RemainingBalance ?? 0;
 
-            budget.RemainingBalance =
-                previousBalance + budget.Allowance - budget.Expenses;
+            budget.RemainingBalance = budget.Allowance - budget.Expenses;
 
             BudgetList.Add(budget);
 
@@ -54,9 +51,10 @@ namespace StudentBudgetTracker.Controllers
                 item.Allowance = updated.Allowance;
                 item.Expenses = updated.Expenses;
                 item.Category = updated.Category;
-            }
 
-            RecalculateBalances();
+                // ✅ RECALCULATE ONLY THIS ITEM
+                item.RemainingBalance = item.Allowance - item.Expenses;
+            }
 
             return RedirectToAction("Records");
         }
@@ -69,8 +67,6 @@ namespace StudentBudgetTracker.Controllers
             if (item != null)
                 BudgetList.Remove(item);
 
-            RecalculateBalances();
-
             return RedirectToAction("Records");
         }
 
@@ -79,11 +75,19 @@ namespace StudentBudgetTracker.Controllers
         {
             decimal runningBalance = 0;
 
-            foreach (var item in BudgetList.OrderBy(x => x.Date))
+            // 🔥 SORT BY DATE FIRST
+            var sortedList = BudgetList.OrderBy(x => x.Date).ToList();
+
+            foreach (var item in sortedList)
             {
-                runningBalance += item.Allowance - item.Expenses;
+                runningBalance += item.Allowance;
+                runningBalance -= item.Expenses;
+
                 item.RemainingBalance = runningBalance;
             }
+
+            // 🔥 UPDATE ORIGINAL LIST ORDER
+            BudgetList = sortedList;
         }
     }
 }

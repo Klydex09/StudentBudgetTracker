@@ -5,33 +5,52 @@ namespace StudentBudgetTracker.Controllers
 {
     public class ReportController : Controller
     {
-        public IActionResult Summary(string filter = "daily")
+        public IActionResult Summary(string filter = "overall")
         {
-            var budgets = BudgetController.BudgetList;
+            var allBudgets = BudgetController.BudgetList;
 
-            // FILTER LOGIC (we'll use this for #2 also)
             DateTime today = DateTime.Now;
+            List<Models.Budget> budgets;
 
-            if (filter == "daily")  
-                budgets = budgets.Where(x => x.Date.Date == today.Date).ToList();
-
+            // 🎯 FILTERING
+            if (filter == "daily")
+            {
+                budgets = allBudgets
+                    .Where(x => x.Date.Date == today.Date)
+                    .ToList();
+            }
             else if (filter == "weekly")
-                budgets = budgets.Where(x => x.Date >= today.AddDays(-7)).ToList();
-
+            {
+                budgets = allBudgets
+                    .Where(x => x.Date >= today.AddDays(-7))
+                    .ToList();
+            }
             else if (filter == "monthly")
-                budgets = budgets.Where(x => x.Date.Month == today.Month && x.Date.Year == today.Year).ToList();
+            {
+                budgets = allBudgets
+                    .Where(x => x.Date.Month == today.Month && x.Date.Year == today.Year)
+                    .ToList();
+            }
+            else // ✅ OVERALL (default)
+            {
+                budgets = allBudgets;
+            }
 
-            // TOTALS
-            ViewBag.TotalAllowance = budgets.Sum(x => x.Allowance);
-            ViewBag.TotalExpenses = budgets.Sum(x => x.Expenses);
-            ViewBag.RemainingBalance = budgets.LastOrDefault()?.RemainingBalance ?? 0;
+            // 🎯 TOTALS
+            decimal totalAllowance = budgets.Sum(x => x.Allowance);
+            decimal totalExpenses = budgets.Sum(x => x.Expenses);
+            decimal remaining = totalAllowance - totalExpenses;
 
-            // CHART DATA
+            ViewBag.TotalAllowance = totalAllowance;
+            ViewBag.TotalExpenses = totalExpenses;
+            ViewBag.RemainingBalance = remaining;
+
+            // 🎯 CHART
             var labels = budgets.Select(x => x.Description).ToList();
             var data = budgets.Select(x => x.Expenses).ToList();
 
-            ViewBag.Labels = JsonSerializer.Serialize(labels);
-            ViewBag.Data = JsonSerializer.Serialize(data);
+            ViewBag.Labels = System.Text.Json.JsonSerializer.Serialize(labels);
+            ViewBag.Data = System.Text.Json.JsonSerializer.Serialize(data);
 
             ViewBag.Filter = filter;
 

@@ -8,10 +8,13 @@ namespace StudentBudgetTracker.Controllers
         {
             var budgets = BudgetController.BudgetList;
 
-            ViewBag.TotalAllowance = budgets.Sum(x => x.Allowance);
-            ViewBag.TotalExpenses = budgets.Sum(x => x.Expenses);
-            ViewBag.RemainingBalance =
-                budgets.LastOrDefault()?.RemainingBalance ?? 0;
+            decimal totalAllowance = budgets.Sum(x => x.Allowance);
+            decimal totalExpenses = budgets.Sum(x => x.Expenses);
+            decimal remaining = totalAllowance - totalExpenses;
+
+            ViewBag.TotalAllowance = totalAllowance;
+            ViewBag.TotalExpenses = totalExpenses;
+            ViewBag.RemainingBalance = remaining;
             ViewBag.Username = "student";
 
             ViewBag.RecentTransactions = budgets.

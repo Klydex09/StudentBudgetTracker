@@ -29,9 +29,11 @@
 
             <select name="filter" onchange="this.form.submit()">    
 
+                <option value="overall" selected="@(ViewBag.Filter == "overall")">Overall</option>
                 <option value="daily" selected="@("daily" == ViewBag.Filter)">Daily</option>
                 <option value="weekly" selected="@("weekly" == ViewBag.Filter)">Weekly</option>
                 <option value="monthly" selected="@("monthly" == ViewBag.Filter)">Monthly</option>
+
 
             </select>
 
