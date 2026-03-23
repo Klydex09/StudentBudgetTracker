@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace StudentBudgetTracker.Controllers
 {
-    public class ReportController : Controller
+    public class ReportController : BaseController
     {
         public IActionResult Summary(string filter = "overall")
         {
@@ -11,6 +11,10 @@ namespace StudentBudgetTracker.Controllers
 
             DateTime today = DateTime.Now;
             List<Models.Budget> budgets;
+
+            if (!IsLoggedIn())
+                return RedirectToLogin();
+
 
             // 🎯 FILTERING
             if (filter == "daily")
@@ -23,7 +27,7 @@ namespace StudentBudgetTracker.Controllers
             {
                 budgets = allBudgets
                     .Where(x => x.Date >= today.AddDays(-7))
-                    .ToList();
+                    .ToList();  
             }
             else if (filter == "monthly")
             {

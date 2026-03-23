@@ -8,13 +8,19 @@ namespace StudentBudgetTracker
 
             // Add services
             builder.Services.AddControllersWithViews();
-            builder.Services.AddSession(); // Add session service
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(options =>
+            {   
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true; 
+                options.Cookie.IsEssential = true;
+            });
 
             var app = builder.Build();
 
             app.UseStaticFiles();
             app.UseRouting();
-            app.UseSession(); // Enable session
+            app.UseSession();
             app.UseAuthorization();
 
             app.MapControllerRoute(

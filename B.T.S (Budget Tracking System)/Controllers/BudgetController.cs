@@ -3,20 +3,26 @@ using StudentBudgetTracker.Models;
 
 namespace StudentBudgetTracker.Controllers
 {
-    public class BudgetController : Controller
+    public class BudgetController : BaseController
     {
         public static List<Budget> BudgetList = new List<Budget>();
         private static int nextId = 1;
 
         public IActionResult Add()
         {
+            if (!IsLoggedIn())
+                return RedirectToLogin();
+
             return View();
         }
 
         [HttpPost]
         public IActionResult Add(Budget budget)
         {
-            budget.Date = DateTime.Now; // set current date
+            if (budget.Date == default)
+            {
+                budget.Date = DateTime.Now;
+            }
             budget.Id = nextId++; // assign ID
 
 
@@ -29,6 +35,9 @@ namespace StudentBudgetTracker.Controllers
 
         public IActionResult Records()
         {
+            if (!IsLoggedIn())
+                return RedirectToLogin();
+
             return View(BudgetList);
         }
 

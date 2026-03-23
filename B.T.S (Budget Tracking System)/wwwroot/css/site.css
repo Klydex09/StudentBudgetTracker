@@ -1,48 +1,116 @@
+/* =========================
+   1. RESET / GLOBAL
+   Basic cleanup for spacing and sizing
+   ========================= */
 * {
-    padding: 0;
     margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
+
+/* =========================
+   2. ROOT COLORS / VARIABLES
+   Easy place to change theme colors
+   ========================= */
+:root {
+    --primary: #014d4e;
+    --primary-dark: #023637;
+    --accent: #d99201;
+    --bg: #f4f8f8;
+    --surface: #ffffff;
+    --text: #22313f;
+    --muted: #60707c;
+    --success: #27ae60;
+    --danger: #c0392b;
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    --radius: 16px;
+    --sidebar-width: 220px;
+}
+
+/* =========================
+   3. BODY
+   Whole page background and font
+   ========================= */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #FFFFFF;
-    color: #333;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(180deg, #eef7f6 0%, #f8fbfb 100%);
+    color: var(--text);
+    min-height: 100vh;
 }
+
+/* =========================
+   4. HEADER
+   Top navigation bar
+   ========================= */
 header {
-
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--primary);
+    color: white;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    background-color: #014d4e;
-    color: #000000;
-    padding: 0 20px;
-    z-index: 100;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
+
     header h2 {
-        color: #FFFFFF;
-        align-content: center;
-        padding: 10px;
-        font-family: Impact;
+        color: white;
+        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
         letter-spacing: 2px;
-    }
-    header a {
-        color: #FFFFFF;
-        text-decoration: none;
-        padding: 10px 15px;
+        font-size: 1.4rem;
     }
 
-/*Main-Aside-Content*/
+.header-a {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    transition: background 0.2s ease;
+}
+
+    header a:hover {
+        background: rgba(255, 255, 255, 0.14);
+    }
+
+.menu-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1.8rem;
+    line-height: 1;
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+    .menu-toggle:hover {
+        background: rgba(255, 255, 255, 0.14);
+    }
+
+/* =========================
+   5. SIDEBAR
+   Left menu on desktop
+   ========================= */
 aside {
     position: fixed;
+    top: 78px;
     left: 0;
-    top: 66px;
-    padding-top: 50px;
-    padding-bottom: 50px;
-    display: flex;
-    flex-direction: column;
-    background: #014d4e;
-    width: 200px;
-    z-index: 0;
+    width: var(--sidebar-width);
+    height: calc(100vh - 78px);
+    background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
+    padding: 24px 16px;
+    overflow-y: auto;
 }
 
     aside nav {
@@ -52,271 +120,614 @@ aside {
     }
 
         aside nav a {
+            display: block;
+            color: white;
             text-align: center;
             text-decoration: none;
-            color: white;
-            font-size: 18px;
-            padding: 15px;
-            transition: background 0.3s ease;
+            padding: 14px 16px;
+            border-radius: 12px;
+            transition: background 0.2s ease, transform 0.2s ease;
         }
 
             aside nav a:hover {
-                background: #d99201;
-                color: white;
-                transition: 0.1s ease;
+                background: var(--accent);
+                transform: translateX(4px);
             }
 
-
-main {
-    margin-top: 20px;
-    margin-left: 10%;
+/* =========================
+   6. CONTENT CONTAINER
+   Main page content beside sidebar
+   ========================= */
+.container {
+    max-width: none;
+    width: 100%;
+    padding: 0;
 }
-    main h1, p {
-        text-align: center;
-        color: #FFFFFF;
-        margin-bottom: 20px;
-    }
-    main h1{
 
-    }
+.container > main {
+    margin-left: calc(var(--sidebar-width) + 24px);
+    margin-right: 24px;
+    margin-top: 24px;
+    margin-bottom: 32px;
+    padding: 24px;
+}
 
+/* Important fix:
+   your old CSS used 'main h1, p'
+   which styles ALL p tags globally */
+main h1,
+main h2 {
+    color: var(--text);
+    text-align: center;
+    margin-bottom: 12px;
+}
 
-/*Login Page*/
+main p {
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+/* =========================
+   7. LOGIN PAGE
+   Login card styling
+   ========================= */
+.main-login {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .login-container {
-    margin-left: 15%;
-    margin-top: 10%;
+    width: 400px;
+    min-height: 450px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
-    width: 400px;
-    height: 450px;
     background: #ccc;
     padding: 40px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
-
-    .login-container h1, p {
-        margin: 10px;
+    .login-container h1 {
+        margin-bottom: 12px;
         text-align: center;
-        color: #333;
+        color: var(--text);
     }
 
-    .login-container .login-form {
-        font-family: 'Times New Roman', Times, serif;
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
+    .login-container p {
+        margin-bottom: 18px;
+        text-align: center;
+        color: var(--muted);
     }
 
-        .login-container .login-form input {
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-        }
-
-        .login-container .login-form button {
-            font-size: large;
-            letter-spacing: 5px;
-            padding: 10px;
-            border: none;
-            border-radius: 10px;
-            background: linear-gradient(to left, #00ff9d, #87e8b3);
-            color: #fff;
-            cursor: pointer;
-        }
-
-
-/* ADD BUDGET FORM CONTAINER */
-.add-container {
-    width: 400px;
-    margin: auto;
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 5px 15px rgba(0,0,0,0.5);
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-/* TITLE */
+    .login-form label {
+        font-weight: 600;
+        color: var(--text);
+    }
+
+    .login-form input {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #d7dee3;
+        border-radius: 12px;
+        font-size: 1rem;
+    }
+
+    .login-form button {
+        margin-top: 10px;
+        padding: 12px;
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #0aa37f, #43c98e);
+        color: white;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+.login-error {
+    width: min(100%, 400px);
+    margin: 16px auto 0;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: #fdecea;
+    color: #b42318;
+    text-align: center;
+    font-weight: 600;
+    box-shadow: var(--shadow);
+}
+
+/* =========================
+   8. FORM CONTAINERS
+   Add/Edit budget panel
+   ========================= */
+.add-container {
+    width: min(100%, 520px);
+    margin: 0 auto;
+    background: var(--surface);
+    padding: 28px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
 .add-title {
     text-align: center;
     margin-bottom: 20px;
-    color: #2c3e50;
+    color: var(--text);
 }
 
-/* FORM GROUP */
 .add-group {
-    margin-bottom: 15px;
+    margin-bottom: 16px;
 }
 
     .add-group label {
         display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--text);
     }
 
-    /* INPUT FIELDS */
     .add-group input,
     .add-group select {
         width: 100%;
-        padding: 10px;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-        transition: 0.2s;
+        padding: 12px 14px;
+        border-radius: 12px;
+        border: 1px solid #d7dee3;
+        font-size: 1rem;
     }
 
-        /* INPUT FOCUS */
         .add-group input:focus,
         .add-group select:focus {
-            border-color: #3498db;
             outline: none;
+            border-color: #3498db;
         }
 
-/* ADD BUTTON */
 .add-btn {
     width: 100%;
     padding: 12px;
-    background: #27ae60;
+    background: var(--success);
     color: white;
     border: none;
-    border-radius: 6px;
-    font-size: 16px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
     cursor: pointer;
-    transition: 0.3s;
+    transition: background 0.2s ease;
 }
 
-    /* BUTTON HOVER */
     .add-btn:hover {
         background: #219150;
     }
 
-/*Budget Records*/
+/* =========================
+   9. DASHBOARD HEADER
+   Welcome panel
+   ========================= */
+.dashboard-header {
+    background: linear-gradient(135deg, #244456, #365f78);
+    color: white;
+    padding: 24px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    text-align: center;
+}
+
+    .dashboard-header h1,
+    .dashboard-header p {
+        color: white;
+    }
+
+/* =========================
+   10. DASHBOARD STATUS BOXES
+   Cards for totals
+   ========================= */
+.dashboard-status {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 20px 0;
+}
+
+.status-box {
+    background: #34495e;
+    color: white;
+    padding: 18px;
+    border-radius: 14px;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: var(--shadow);
+}
+
+/* =========================
+   11. DASHBOARD BUTTONS
+   Bottom action links
+   ========================= */
+.dashboard-bottom-btn {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 20px;
+}
+
+    .dashboard-bottom-btn a {
+        display: block;
+        text-align: center;
+        background: var(--success);
+        color: white;
+        padding: 14px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+/* =========================
+   12. RECORD TABLE
+   Budget history table
+   ========================= */
 .record-container {
     width: 100%;
+    margin-top: 24px;
     border-collapse: collapse;
-    margin: 40px auto;
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
-}
-/* TITLE */
-.record-title {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #2c3e50;
-}
-    /* HEADER */
-.record-container thead {
-    background: #2c3e50;
-    color: white;
+    background: var(--surface);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
 }
 
-.record-container th {
-    padding: 12px;
-    text-align: center;
-}
-
-    /* ROWS */
-.record-container td {
-    padding: 12px;
-    text-align: center;
-    border-bottom: 1px solid #eee;
-}
-.record-container a {
-    width: 100%;
-    text-decoration: none;
-    padding: 12px;
-    margin: 5px 0;
-    background: #27ae60;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-    /* HOVER EFFECT */
-    .record-container tbody tr:hover {
-        background: #f1f1f1;
-    }
-    /* ALLOWANCE STYLE */
-    .type.allowance {
-        color: #27ae60;
-        font-weight: bold;  
-    }
-    /* EXPENSE STYLE */
-    .type.expense {
-        color: #e74c3c;
-        font-weight: bold;
-    }
-    /* Dashboard  */
-.dashboard-header {
-    background: #2c3e50;
-    color: #fff;
-    padding: 20px;
-    border-radius: 10px 10px;
-    box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
-    text-align: center;
-}
-
-        .dashboard-header p {
-            color: white;
-            font-size: 18px;
-            margin-top: 5px;
-            text-align: left;
-        }
-    /* Status Boxes */
-    .dashboard-status {
-        display: flex;
-        gap: 15px;
-        margin: 20px 0;
-    }
-
-    .status-box {
-        flex: 1;
-        background: #34495e;
+    .record-container th {
+        background: #2c3e50;
         color: white;
-        padding: 15px;
-        border-radius: 8px;
+        padding: 14px;
         text-align: center;
-        font-weight: bold;
+    }
+
+    .record-container td {
+        padding: 14px 10px;
+        text-align: center;
+        border-bottom: 1px solid #edf1f4;
+    }
+
+    .record-container tr:hover {
+        background: #f8fbfc;
+    }
+
+    .record-container a {
+        display: inline-block;
+        text-decoration: none;
+        padding: 8px 12px;
+        margin: 4px;
+        background: var(--success);
+        color: white;
+        border-radius: 10px;
+        font-size: 0.95rem;
+    }
+
+/* =========================
+   13. REPORT / CHART AREA
+   Summary chart box
+   ========================= */
+.daily-chart {
+    margin-top: 24px;
+    padding: 24px;
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+    .daily-chart form {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .daily-chart select {
+        width: min(100%, 260px);
+        padding: 12px 16px;
+        border-radius: 12px;
+        border: 1px solid #d7dee3;
+    }
+
+    .daily-chart canvas {
+        max-width: 100%;
+        height: auto !important;
+    }
+
+/* =========================
+   14. TABLET RESPONSIVE
+   Makes sidebar become top navigation
+   ========================= */
+@media (max-width: 991px) {
+    aside {
+        position: static;
+        width: 100%;
+        height: auto;
+        padding: 16px;
+    }
+
+        aside nav {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+            aside nav a {
+                text-align: center;
+            }
+
+    .container > main {
+        width: auto;
+        max-width: 1100px;
+        margin: 24px 20px 32px;
+        padding: 24px 20px;
+    }
+
+
+    .dashboard-status {
+        grid-template-columns: 1fr;
     }
 
     .dashboard-bottom-btn {
-        display: flex;
-        gap: 15px;
-        padding: 15px;
-        border-radius: 8px;
-        text-align: center;
+        grid-template-columns: 1fr;
     }
-
-        .dashboard-bottom-btn a {
-            flex: 1;
-            background: #27ae60;
-            color: #fff;
-            padding: 15px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-.daily-chart {
-    display: flex;
-    margin: 40px auto;
-    padding: 20px;
-
 }
-    .daily-chart select {
-        padding: 10px 50px;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-        box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
-        margin-bottom: 20px;
+
+/* =========================
+   15. MOBILE RESPONSIVE
+   Small-screen layout fixes
+   ========================= */
+@media (max-width: 640px) {
+    header {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 8px 12px;
+        padding: 14px 16px;
     }
-    .daily-chart canvas {
+
+    .menu-toggle {
+        display: block;
+        align-self: center;
+        justify-self: end;
+        margin-top: 0;
+    }
+
+    .header-a {
+        display: none;
+    }
+
+    header a {
+        text-align: center;
+        flex: 1 1 auto;
+    }
+
+    .container > main {
+        margin: 16px;
+        padding: 16px;
+    }
+
+    aside {
+        position: fixed;
+        top: 78px;
+        left: -240px;
+        width: 220px;
+        height: calc(100vh - 78px);
+        z-index: 1200;
+        transition: left 0.3s ease;
+    }
+
+    aside.open {
+        left: 0;
+    }
+
+    aside nav {
+        flex-direction: column;
+    }
+
+    .login-container,
+    .add-container {
         width: 100%;
-        height: 300px;
-        
-            
+        padding: 20px;
     }
+
+    .record-container {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .daily-chart {
+        padding: 16px;
+    }
+}
+
+.home-hero {
+    background: linear-gradient(135deg, #123c52, #1a6670);
+    color: white;
+    padding: 36px 28px;
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    margin-bottom: 24px;
+}
+
+.home-tag {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.16);
+    color: #f7fbfb;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 14px;
+}
+
+.home-hero h1 {
+    color: white;
+    text-align: left;
+    font-size: 2.3rem;
+    margin-bottom: 14px;
+}
+
+.home-intro {
+    color: #e6f3f3;
+    text-align: left;
+    max-width: 750px;
+    line-height: 1.7;
+    font-size: 1.05rem;
+}
+
+.home-overview {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.home-card {
+    background: white;
+    padding: 24px;
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    border-top: 5px solid #0f6a67;
+}
+
+.home-card h2 {
+    text-align: left;
+    margin-bottom: 14px;
+    color: #163242;
+    font-size: 1.2rem;
+}
+
+.home-card p {
+    text-align: left;
+    color: #546570;
+    line-height: 1.7;
+    margin-bottom: 0;
+}
+
+.home-features {
+    padding-left: 20px;
+    color: #546570;
+    line-height: 1.9;
+}
+
+.home-features li {
+    margin-bottom: 6px;
+}
+
+@media (max-width: 991px) {
+    .home-overview {
+        grid-template-columns: 1fr;
+    }
+
+    .home-hero h1,
+    .home-intro,
+    .home-card h2,
+    .home-card p {
+        text-align: left;
+    }
+}
+
+@media (max-width: 640px) {
+    .home-hero {
+        padding: 24px 18px;
+    }
+
+    .home-hero h1 {
+        font-size: 1.7rem;
+    }
+
+    .home-card {
+        padding: 18px;
+    }
+}
+
+.about-hero {
+    background: linear-gradient(135deg, #1b4458, #245e63);
+    color: white;
+    padding: 36px 28px;
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    margin-bottom: 24px;
+}
+
+.about-tag {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.16);
+    color: #f7fbfb;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 14px;
+}
+
+.about-hero h1 {
+    color: white;
+    text-align: left;
+    font-size: 2.2rem;
+    margin-bottom: 14px;
+}
+
+.about-intro {
+    color: #e4f1f2;
+    text-align: left;
+    max-width: 760px;
+    line-height: 1.7;
+    font-size: 1.04rem;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.about-card {
+    background: white;
+    padding: 24px;
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    border-top: 5px solid #1f7a73;
+}
+
+.about-card h2 {
+    text-align: left;
+    margin-bottom: 14px;
+    color: #163242;
+    font-size: 1.2rem;
+}
+
+.about-card p {
+    text-align: left;
+    color: #546570;
+    line-height: 1.7;
+    margin-bottom: 0;
+}
+
+@media (max-width: 991px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .about-hero {
+        padding: 24px 18px;
+    }
+
+    .about-hero h1 {
+        font-size: 1.7rem;
+    }
+
+    .about-card {
+        padding: 18px;
+    }
+}

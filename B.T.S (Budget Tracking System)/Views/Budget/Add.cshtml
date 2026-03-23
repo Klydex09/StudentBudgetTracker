@@ -40,8 +40,12 @@
                 <option>Food</option>
                 <option>Transportation</option>
                 <option>School</option>
-
             </select>
+        </div>
+
+        <div class="add-group">
+           <label>Date</label>
+           <input type="date" name="Date" value="@DateTime.Now.ToString("yyyy-MM-dd")" required>
         </div>
 
         <button type="submit" class="add-btn">Add Budget</button>

@@ -2,10 +2,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace StudentBudgetTracker.Controllers
 {
-    public class DashboardController : Controller
+    public class DashboardController : BaseController
     {
         public IActionResult Dashboard()
         {
+
+            if (!IsLoggedIn())
+                return RedirectToLogin();
+
             var budgets = BudgetController.BudgetList;
 
             decimal totalAllowance = budgets.Sum(x => x.Allowance);

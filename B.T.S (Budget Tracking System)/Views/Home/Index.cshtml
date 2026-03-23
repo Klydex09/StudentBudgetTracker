@@ -1,27 +1,55 @@
-﻿@{
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <aside>
-
     <nav>
         <a href="/Dashboard/Dashboard">Dashboard</a>
         <a href="/Budget/Add">Add Budget</a>
         <a href="/Budget/Records">Budget History</a>
-        <a href="/Report/Summary">Summary / Chartz</a>
+        <a href="/Report/Summary">Summary / Charts</a>
         <a href="/Account/Logout">Logout</a>
     </nav>
-
 </aside>
 
-    
-<main id="main-content">
+<section class="home-hero">
+    <p class="home-tag">Smart Budgeting for Students</p>
+    <h1>Student Budget Tracking System</h1>
+    <p class="home-intro">
+        The Student Budget Tracking System is a web-based application designed to help students
+        manage their allowance, monitor expenses, and keep track of their remaining balance in a
+        simple and organized way.
+    </p>
+</section>
 
-    <h2>Welcome to the Student Budget Tracking System </h2>
+<section class="home-overview">
+    <div class="home-card">
+        <h2>Project Overview</h2>
+        <p>
+            This system allows users to record daily budget entries, categorize expenses, review
+            transaction history, and generate visual summaries through dashboard reports and charts.
+            It provides students with an accessible tool for understanding their spending habits
+            and making better financial decisions.
+        </p>
+    </div>
 
-    <p>This system helps students manage their allowance and expenses.</p>
+    <div class="home-card">
+        <h2>Main Purpose</h2>
+        <p>
+            The main goal of this project is to promote financial awareness, discipline, and
+            responsible budgeting among students. By using this system, students can develop
+            better money management habits and gain a clearer view of how they spend their allowance.
+        </p>
+    </div>
 
-</main>
-
-
-
+    <div class="home-card">
+        <h2>Key Features</h2>
+        <ul class="home-features">
+            <li>Add and manage budget records</li>
+            <li>Track allowance and expenses</li>
+            <li>View remaining balance instantly</li>
+            <li>See recent transactions on the dashboard</li>
+            <li>Generate summary reports with charts</li>
+        </ul>
+    </div>
+</section>

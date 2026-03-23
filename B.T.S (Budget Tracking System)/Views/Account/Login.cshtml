@@ -21,5 +21,8 @@
 
 </form>
 
-<p style="color:red">@ViewBag.Error</p>
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <p class="login-error">@ViewBag.Error</p>
+}
 </main>

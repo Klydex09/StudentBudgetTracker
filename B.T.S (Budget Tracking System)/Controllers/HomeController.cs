@@ -2,10 +2,13 @@
 
 namespace StudentBudgetTracker.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public IActionResult Index()
         {
+            if (!IsLoggedIn())
+                return RedirectToLogin();
+
             return View();
         }
 
