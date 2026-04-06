@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Local .NET CLI cache created in the project folder
+B.T.S (Budget Tracking System)/.dotnet/
