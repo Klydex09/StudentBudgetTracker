@@ -1,28 +1,34 @@
-﻿@{
+@{
+    // Sets the browser tab title for the login page.
     ViewData["Title"] = "Login";
 }
 
 <main>
-<form class="login-container" method="post">
+    @* Main login form used to submit the username and password to AccountController.Login *@
+    <form class="login-container" method="post">
 
-    <h1>Login</h1>
-    <p>Welcome back! Please enter your credentials to access your account.</p>
+        @* Page title and short instruction for the user *@
+        <h1>Login</h1>
+        <p>Welcome back! Please enter your credentials to access your account.</p>
 
-    <div class="login-form">
-        <label>Username:</label>
-        <input type="text" name="username" required>
-    
-        <label>Password:</label>
-        <input type="password" name="password" required>
-    
-        <button type="submit">Login</button>
+        <div class="login-form">
+            @* Input field for the username *@
+            <label>Username:</label>
+            <input type="text" name="username" required>
 
-    </div>
+            @* Input field for the password *@
+            <label>Password:</label>
+            <input type="password" name="password" required>
 
-</form>
+            @* Submits the login form to the controller *@
+            <button type="submit">Login</button>
+        </div>
 
-@if (!string.IsNullOrEmpty(ViewBag.Error))
-{
-    <p class="login-error">@ViewBag.Error</p>
-}
+    </form>
+
+    @* Shows the error message only when the controller sends one *@
+    @if (!string.IsNullOrEmpty(ViewBag.Error))
+    {
+        <p class="login-error">@ViewBag.Error</p>
+    }
 </main>

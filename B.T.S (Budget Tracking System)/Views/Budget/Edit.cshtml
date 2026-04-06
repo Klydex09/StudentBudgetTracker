@@ -1,42 +1,46 @@
-﻿@model StudentBudgetTracker.Models.Budget
+@* This view receives one Budget model so the current values can be edited *@
+@model StudentBudgetTracker.Models.Budget
 
+@* Title of the Edit Budget page *@
 <h2>Edit Budget</h2>
 
+@* Form used to submit the edited record back to BudgetController.Edit *@
 <form method="post" class="add-form">
 
+    @* Hidden ID field so the controller knows which record to update *@
     <input type="hidden" name="Id" value="@Model.Id" />
 
     <div class="add-group">
-    <label>Date</label>
-    <input type="date" name="Date" value="@Model.Date.ToString("yyyy-MM-dd")" />
-    </div>
-
-     <div class="add-group">
-    <label>Description</label>
-    <input type="text" name="Description" value="@Model.Description" />
+        <label>Date</label>
+        <input type="date" name="Date" value="@Model.Date.ToString("yyyy-MM-dd")" />
     </div>
 
     <div class="add-group">
-    <label>Allowance</label>
-    <input type="number" name="Allowance" value="@Model.Allowance" />
+        <label>Description</label>
+        <input type="text" name="Description" value="@Model.Description" />
     </div>
 
-     <div class="add-group">
-    <label>Expenses</label>
-    <input type="number" name="Expenses" value="@Model.Expenses" />
+    <div class="add-group">
+        <label>Allowance</label>
+        <input type="number" name="Allowance" value="@Model.Allowance" />
     </div>
 
-     <div class="add-group">
+    <div class="add-group">
+        <label>Expenses</label>
+        <input type="number" name="Expenses" value="@Model.Expenses" />
+    </div>
+
+    <div class="add-group">
         <label>Type</label>
         <select name="Category" value="@Model.Category">
             <option>None</option>
             <option>Food</option>
             <option>Transportation</option>
             <option>School</option>
-
         </select>
     </div>
 
+    @* Saves the updated values entered by the user *@
     <button class="add-btn" type="submit">Save Changes</button>
 
 </form>

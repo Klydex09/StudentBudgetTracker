@@ -1,6 +1,6 @@
 /* =========================
    1. RESET / GLOBAL
-   Basic cleanup for spacing and sizing
+   Removes default browser spacing and makes sizing easier to manage.
    ========================= */
 * {
     margin: 0;
@@ -10,27 +10,24 @@
 
 /* =========================
    2. ROOT COLORS / VARIABLES
-   Easy place to change theme colors
+   Centralized design values used throughout the interface.
    ========================= */
 :root {
-    --primary: #014d4e;
-    --primary-dark: #023637;
-    --accent: #d99201;
-    --bg: #f4f8f8;
-    --surface: #ffffff;
-    --text: #22313f;
-    --muted: #60707c;
-    --success: #27ae60;
-    --danger: #c0392b;
-    --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    --radius: 16px;
-    --sidebar-width: 220px;
+    --primary: #014d4e; /* Main brand color used in the header and sidebar */
+    --primary-dark: #023637; /* Darker variation for gradients */
+    --accent: #d99201; /* Highlight color used on hover */
+    --bg: #f4f8f8; /* Soft background color */
+    --surface: #ffffff; /* White card/panel background */
+    --text: #22313f; /* Main text color */
+    --muted: #60707c; /* Lighter text for descriptions */
+    --success: #27ae60; /* Positive/action color for buttons */
+    --danger: #c0392b; /* Error or danger color */
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.08); /* Shared shadow style */
+    --radius: 16px; /* Shared rounded-corner value */
+    --sidebar-width: 220px; /* Fixed width of the sidebar on desktop */
 }
 
-/* =========================
-   3. BODY
-   Whole page background and font
-   ========================= */
+/* Applies the main font, background, and text color to the whole page. */
 body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(180deg, #eef7f6 0%, #f8fbfb 100%);
@@ -39,11 +36,11 @@ body {
 }
 
 /* =========================
-   4. HEADER
-   Top navigation bar
+   3. HEADER
+   Shared top navigation bar.
    ========================= */
 header {
-    position: sticky;
+    position: sticky; /* Keeps the header visible while scrolling */
     top: 0;
     z-index: 1000;
     background: var(--primary);
@@ -56,19 +53,22 @@ header {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
 
-    header h2 {
-        color: white;
-        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-        letter-spacing: 2px;
-        font-size: 1.4rem;
-    }
+/* Styles the system title shown in the header. */
+header h2 {
+    color: white;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    letter-spacing: 2px;
+    font-size: 1.4rem;
+}
 
+/* Holds the header navigation links. */
 .header-a {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
 }
 
+/* Shared style for header links. */
 header a {
     color: white;
     text-decoration: none;
@@ -77,10 +77,12 @@ header a {
     transition: background 0.2s ease;
 }
 
-    header a:hover {
-        background: rgba(255, 255, 255, 0.14);
-    }
+/* Adds a hover effect to the header links. */
+header a:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
 
+/* Hidden by default and only shown on mobile for the sidebar toggle. */
 .menu-toggle {
     display: none;
     background: transparent;
@@ -94,16 +96,17 @@ header a {
     transition: background 0.2s ease;
 }
 
-    .menu-toggle:hover {
-        background: rgba(255, 255, 255, 0.14);
-    }
+/* Hover effect for the mobile toggle button. */
+.menu-toggle:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
 
 /* =========================
-   5. SIDEBAR
-   Left menu on desktop
+   4. SIDEBAR
+   Main left navigation used on secured pages.
    ========================= */
 aside {
-    position: fixed;
+    position: fixed; /* Keeps the sidebar visible on desktop */
     top: 78px;
     left: 0;
     width: var(--sidebar-width);
@@ -113,30 +116,33 @@ aside {
     overflow-y: auto;
 }
 
-    aside nav {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
+/* Stacks sidebar links vertically. */
+aside nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 
-        aside nav a {
-            display: block;
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            padding: 14px 16px;
-            border-radius: 12px;
-            transition: background 0.2s ease, transform 0.2s ease;
-        }
+/* Styles the links inside the sidebar. */
+aside nav a {
+    display: block;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    padding: 14px 16px;
+    border-radius: 12px;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
 
-            aside nav a:hover {
-                background: var(--accent);
-                transform: translateX(4px);
-            }
+/* Adds color and movement when a sidebar link is hovered. */
+aside nav a:hover {
+    background: var(--accent);
+    transform: translateX(4px);
+}
 
 /* =========================
-   6. CONTENT CONTAINER
-   Main page content beside sidebar
+   5. CONTENT CONTAINER
+   Positions the main page content beside the sidebar.
    ========================= */
 .container {
     max-width: none;
@@ -144,6 +150,7 @@ aside {
     padding: 0;
 }
 
+/* Applies desktop spacing only to the layout's main content area. */
 .container > main {
     margin-left: calc(var(--sidebar-width) + 24px);
     margin-right: 24px;
@@ -152,9 +159,7 @@ aside {
     padding: 24px;
 }
 
-/* Important fix:
-   your old CSS used 'main h1, p'
-   which styles ALL p tags globally */
+/* Shared heading style inside all page content areas. */
 main h1,
 main h2 {
     color: var(--text);
@@ -162,6 +167,7 @@ main h2 {
     margin-bottom: 12px;
 }
 
+/* Shared paragraph style inside all page content areas. */
 main p {
     color: var(--muted);
     text-align: center;
@@ -169,8 +175,8 @@ main p {
 }
 
 /* =========================
-   7. LOGIN PAGE
-   Login card styling
+   6. LOGIN PAGE
+   Styles the login form and error message.
    ========================= */
 .main-login {
     min-height: calc(100vh - 80px);
@@ -178,6 +184,8 @@ main p {
     justify-content: center;
     align-items: center;
 }
+
+/* Main card container for the login page. */
 .login-container {
     width: 400px;
     min-height: 450px;
@@ -189,49 +197,57 @@ main p {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
-    .login-container h1 {
-        margin-bottom: 12px;
-        text-align: center;
-        color: var(--text);
-    }
 
-    .login-container p {
-        margin-bottom: 18px;
-        text-align: center;
-        color: var(--muted);
-    }
+/* Login heading inside the card. */
+.login-container h1 {
+    margin-bottom: 12px;
+    text-align: center;
+    color: var(--text);
+}
 
+/* Login description text. */
+.login-container p {
+    margin-bottom: 18px;
+    text-align: center;
+    color: var(--muted);
+}
+
+/* Stacks the login form inputs vertically. */
 .login-form {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-    .login-form label {
-        font-weight: 600;
-        color: var(--text);
-    }
+/* Styles the labels in the login form. */
+.login-form label {
+    font-weight: 600;
+    color: var(--text);
+}
 
-    .login-form input {
-        width: 100%;
-        padding: 12px 14px;
-        border: 1px solid #d7dee3;
-        border-radius: 12px;
-        font-size: 1rem;
-    }
+/* Styles the username and password input fields. */
+.login-form input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d7dee3;
+    border-radius: 12px;
+    font-size: 1rem;
+}
 
-    .login-form button {
-        margin-top: 10px;
-        padding: 12px;
-        border: none;
-        border-radius: 12px;
-        background: linear-gradient(135deg, #0aa37f, #43c98e);
-        color: white;
-        font-size: 1rem;
-        font-weight: 700;
-        cursor: pointer;
-    }
+/* Styles the login button. */
+.login-form button {
+    margin-top: 10px;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #0aa37f, #43c98e);
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+}
 
+/* Styles the login error message shown for invalid credentials. */
 .login-error {
     width: min(100%, 400px);
     margin: 16px auto 0;
@@ -245,8 +261,8 @@ main p {
 }
 
 /* =========================
-   8. FORM CONTAINERS
-   Add/Edit budget panel
+   7. FORM CONTAINERS
+   Shared styles for Add/Edit budget forms.
    ========================= */
 .add-container {
     width: min(100%, 520px);
@@ -257,38 +273,44 @@ main p {
     box-shadow: var(--shadow);
 }
 
+/* Styles the form title. */
 .add-title {
     text-align: center;
     margin-bottom: 20px;
     color: var(--text);
 }
 
+/* Wraps each form input and label pair. */
 .add-group {
     margin-bottom: 16px;
 }
 
-    .add-group label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 600;
-        color: var(--text);
-    }
+/* Styles the form labels for budget fields. */
+.add-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text);
+}
 
-    .add-group input,
-    .add-group select {
-        width: 100%;
-        padding: 12px 14px;
-        border-radius: 12px;
-        border: 1px solid #d7dee3;
-        font-size: 1rem;
-    }
+/* Styles the input and select fields inside the budget form. */
+.add-group input,
+.add-group select {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid #d7dee3;
+    font-size: 1rem;
+}
 
-        .add-group input:focus,
-        .add-group select:focus {
-            outline: none;
-            border-color: #3498db;
-        }
+/* Adds a highlighted border when a form field is focused. */
+.add-group input:focus,
+.add-group select:focus {
+    outline: none;
+    border-color: #3498db;
+}
 
+/* Shared green button style used in forms and quick actions. */
 .add-btn {
     width: 100%;
     padding: 12px;
@@ -302,13 +324,14 @@ main p {
     transition: background 0.2s ease;
 }
 
-    .add-btn:hover {
-        background: #219150;
-    }
+/* Darkens the button on hover. */
+.add-btn:hover {
+    background: #219150;
+}
 
 /* =========================
-   9. DASHBOARD HEADER
-   Welcome panel
+   8. DASHBOARD
+   Summary panels and action links.
    ========================= */
 .dashboard-header {
     background: linear-gradient(135deg, #244456, #365f78);
@@ -319,15 +342,13 @@ main p {
     text-align: center;
 }
 
-    .dashboard-header h1,
-    .dashboard-header p {
-        color: white;
-    }
+/* Keeps dashboard header text white over the dark background. */
+.dashboard-header h1,
+.dashboard-header p {
+    color: white;
+}
 
-/* =========================
-   10. DASHBOARD STATUS BOXES
-   Cards for totals
-   ========================= */
+/* Creates a 3-column layout for the dashboard summary cards. */
 .dashboard-status {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -335,6 +356,7 @@ main p {
     margin: 20px 0;
 }
 
+/* Individual summary card style. */
 .status-box {
     background: #34495e;
     color: white;
@@ -345,10 +367,7 @@ main p {
     box-shadow: var(--shadow);
 }
 
-/* =========================
-   11. DASHBOARD BUTTONS
-   Bottom action links
-   ========================= */
+/* Holds the two quick action buttons on the dashboard. */
 .dashboard-bottom-btn {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -356,20 +375,21 @@ main p {
     margin-top: 20px;
 }
 
-    .dashboard-bottom-btn a {
-        display: block;
-        text-align: center;
-        background: var(--success);
-        color: white;
-        padding: 14px;
-        border-radius: 12px;
-        text-decoration: none;
-        font-weight: bold;
-    }
+/* Styles dashboard action links like buttons. */
+.dashboard-bottom-btn a {
+    display: block;
+    text-align: center;
+    background: var(--success);
+    color: white;
+    padding: 14px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: bold;
+}
 
 /* =========================
-   12. RECORD TABLE
-   Budget history table
+   9. RECORDS TABLE
+   Shared table design for records and dashboard transactions.
    ========================= */
 .record-container {
     width: 100%;
@@ -381,37 +401,41 @@ main p {
     box-shadow: var(--shadow);
 }
 
-    .record-container th {
-        background: #2c3e50;
-        color: white;
-        padding: 14px;
-        text-align: center;
-    }
+/* Styles the header row of tables. */
+.record-container th {
+    background: #2c3e50;
+    color: white;
+    padding: 14px;
+    text-align: center;
+}
 
-    .record-container td {
-        padding: 14px 10px;
-        text-align: center;
-        border-bottom: 1px solid #edf1f4;
-    }
+/* Styles normal table cells. */
+.record-container td {
+    padding: 14px 10px;
+    text-align: center;
+    border-bottom: 1px solid #edf1f4;
+}
 
-    .record-container tr:hover {
-        background: #f8fbfc;
-    }
+/* Changes row background when hovered. */
+.record-container tr:hover {
+    background: #f8fbfc;
+}
 
-    .record-container a {
-        display: inline-block;
-        text-decoration: none;
-        padding: 8px 12px;
-        margin: 4px;
-        background: var(--success);
-        color: white;
-        border-radius: 10px;
-        font-size: 0.95rem;
-    }
+/* Styles edit/delete links inside the table. */
+.record-container a {
+    display: inline-block;
+    text-decoration: none;
+    padding: 8px 12px;
+    margin: 4px;
+    background: var(--success);
+    color: white;
+    border-radius: 10px;
+    font-size: 0.95rem;
+}
 
 /* =========================
-   13. REPORT / CHART AREA
-   Summary chart box
+   10. REPORT / CHART AREA
+   Summary page chart container and filter form.
    ========================= */
 .daily-chart {
     margin-top: 24px;
@@ -421,29 +445,33 @@ main p {
     box-shadow: var(--shadow);
 }
 
-    .daily-chart form {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 20px;
-    }
+/* Centers the report filter dropdown. */
+.daily-chart form {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
 
-    .daily-chart select {
-        width: min(100%, 260px);
-        padding: 12px 16px;
-        border-radius: 12px;
-        border: 1px solid #d7dee3;
-    }
+/* Styles the summary filter dropdown. */
+.daily-chart select {
+    width: min(100%, 260px);
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid #d7dee3;
+}
 
-    .daily-chart canvas {
-        max-width: 100%;
-        height: auto !important;
-    }
+/* Makes the chart responsive inside its container. */
+.daily-chart canvas {
+    max-width: 100%;
+    height: auto !important;
+}
 
 /* =========================
-   14. TABLET RESPONSIVE
-   Makes sidebar become top navigation
+   11. TABLET RESPONSIVE
+   Adjusts layout for medium-sized screens.
    ========================= */
 @media (max-width: 991px) {
+    /* Turns the sidebar into a normal block at tablet size. */
     aside {
         position: static;
         width: 100%;
@@ -451,16 +479,19 @@ main p {
         padding: 16px;
     }
 
-        aside nav {
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
+    /* Lets sidebar links wrap horizontally on tablet. */
+    aside nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 
-            aside nav a {
-                text-align: center;
-            }
+    /* Keeps wrapped sidebar links centered. */
+    aside nav a {
+        text-align: center;
+    }
 
+    /* Reduces page margins and padding for smaller screens. */
     .container > main {
         width: auto;
         max-width: 1100px;
@@ -468,21 +499,23 @@ main p {
         padding: 24px 20px;
     }
 
-
+    /* Stacks summary cards vertically on tablet. */
     .dashboard-status {
         grid-template-columns: 1fr;
     }
 
+    /* Stacks dashboard action buttons vertically on tablet. */
     .dashboard-bottom-btn {
         grid-template-columns: 1fr;
     }
 }
 
 /* =========================
-   15. MOBILE RESPONSIVE
-   Small-screen layout fixes
+   12. MOBILE RESPONSIVE
+   Adapts the layout for small mobile screens.
    ========================= */
 @media (max-width: 640px) {
+    /* Reorganizes the top header into a compact mobile layout. */
     header {
         display: grid;
         grid-template-columns: 1fr auto;
@@ -491,6 +524,7 @@ main p {
         padding: 14px 16px;
     }
 
+    /* Shows the sidebar menu toggle button on mobile. */
     .menu-toggle {
         display: block;
         align-self: center;
@@ -498,20 +532,24 @@ main p {
         margin-top: 0;
     }
 
+    /* Hides the normal top navigation links on mobile. */
     .header-a {
         display: none;
     }
 
+    /* Keeps header links centered when shown. */
     header a {
         text-align: center;
         flex: 1 1 auto;
     }
 
+    /* Makes the main content use smaller spacing on mobile. */
     .container > main {
         margin: 16px;
         padding: 16px;
     }
 
+    /* Hides the sidebar off-screen until the toggle button opens it. */
     aside {
         position: fixed;
         top: 78px;
@@ -522,31 +560,40 @@ main p {
         transition: left 0.3s ease;
     }
 
+    /* Brings the sidebar into view when JavaScript adds the open class. */
     aside.open {
         left: 0;
     }
 
+    /* Restores vertical navigation inside the opened mobile sidebar. */
     aside nav {
         flex-direction: column;
     }
 
+    /* Lets the login and add form containers fit the mobile width. */
     .login-container,
     .add-container {
         width: 100%;
         padding: 20px;
     }
 
+    /* Allows tables to scroll horizontally instead of breaking the layout. */
     .record-container {
         display: block;
         overflow-x: auto;
         white-space: nowrap;
     }
 
+    /* Reduces chart padding on small screens. */
     .daily-chart {
         padding: 16px;
     }
 }
 
+/* =========================
+   13. HOME PAGE
+   Styles the Home page hero and overview cards.
+   ========================= */
 .home-hero {
     background: linear-gradient(135deg, #123c52, #1a6670);
     color: white;
@@ -556,6 +603,7 @@ main p {
     margin-bottom: 24px;
 }
 
+/* Badge shown at the top of the Home hero section. */
 .home-tag {
     display: inline-block;
     background: rgba(255, 255, 255, 0.16);
@@ -568,6 +616,7 @@ main p {
     margin-bottom: 14px;
 }
 
+/* Main heading of the Home hero section. */
 .home-hero h1 {
     color: white;
     text-align: left;
@@ -575,6 +624,7 @@ main p {
     margin-bottom: 14px;
 }
 
+/* Intro paragraph of the Home hero section. */
 .home-intro {
     color: #e6f3f3;
     text-align: left;
@@ -583,12 +633,14 @@ main p {
     font-size: 1.05rem;
 }
 
+/* Grid layout for the Home information cards. */
 .home-overview {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
 
+/* Shared card style used on the Home page. */
 .home-card {
     background: white;
     padding: 24px;
@@ -597,6 +649,7 @@ main p {
     border-top: 5px solid #0f6a67;
 }
 
+/* Home card title style. */
 .home-card h2 {
     text-align: left;
     margin-bottom: 14px;
@@ -604,6 +657,7 @@ main p {
     font-size: 1.2rem;
 }
 
+/* Home card paragraph text. */
 .home-card p {
     text-align: left;
     color: #546570;
@@ -611,16 +665,19 @@ main p {
     margin-bottom: 0;
 }
 
+/* Styles the features list on the Home page. */
 .home-features {
     padding-left: 20px;
     color: #546570;
     line-height: 1.9;
 }
 
+/* Adds spacing between feature items. */
 .home-features li {
     margin-bottom: 6px;
 }
 
+/* Makes Home cards stack vertically on tablet. */
 @media (max-width: 991px) {
     .home-overview {
         grid-template-columns: 1fr;
@@ -634,6 +691,7 @@ main p {
     }
 }
 
+/* Reduces Home page spacing for mobile. */
 @media (max-width: 640px) {
     .home-hero {
         padding: 24px 18px;
@@ -648,6 +706,10 @@ main p {
     }
 }
 
+/* =========================
+   14. ABOUT PAGE
+   Styles the About page hero and cards.
+   ========================= */
 .about-hero {
     background: linear-gradient(135deg, #1b4458, #245e63);
     color: white;
@@ -657,6 +719,7 @@ main p {
     margin-bottom: 24px;
 }
 
+/* Badge shown at the top of the About hero section. */
 .about-tag {
     display: inline-block;
     background: rgba(255, 255, 255, 0.16);
@@ -669,6 +732,7 @@ main p {
     margin-bottom: 14px;
 }
 
+/* Main heading of the About hero section. */
 .about-hero h1 {
     color: white;
     text-align: left;
@@ -676,6 +740,7 @@ main p {
     margin-bottom: 14px;
 }
 
+/* Intro paragraph of the About page. */
 .about-intro {
     color: #e4f1f2;
     text-align: left;
@@ -684,12 +749,14 @@ main p {
     font-size: 1.04rem;
 }
 
+/* Grid layout for the About information cards. */
 .about-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
 
+/* Shared card style used on the About page. */
 .about-card {
     background: white;
     padding: 24px;
@@ -698,6 +765,7 @@ main p {
     border-top: 5px solid #1f7a73;
 }
 
+/* About card title style. */
 .about-card h2 {
     text-align: left;
     margin-bottom: 14px;
@@ -705,6 +773,7 @@ main p {
     font-size: 1.2rem;
 }
 
+/* About card paragraph text. */
 .about-card p {
     text-align: left;
     color: #546570;
@@ -712,12 +781,14 @@ main p {
     margin-bottom: 0;
 }
 
+/* Makes About cards stack vertically on tablet. */
 @media (max-width: 991px) {
     .about-grid {
         grid-template-columns: 1fr;
     }
 }
 
+/* Reduces About page spacing for mobile. */
 @media (max-width: 640px) {
     .about-hero {
         padding: 24px 18px;

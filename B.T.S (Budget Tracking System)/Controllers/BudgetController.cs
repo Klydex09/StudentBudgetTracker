@@ -1,13 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using StudentBudgetTracker.Models;
 
 namespace StudentBudgetTracker.Controllers
 {
+    // This controller handles adding, viewing, editing, and deleting budget records.
     public class BudgetController : BaseController
     {
+        // In-memory list used to temporarily store all budget entries.
         public static List<Budget> BudgetList = new List<Budget>();
+
+        // Counter used to assign a unique ID to each new record.
         private static int nextId = 1;
 
+        // Opens the Add Budget page.
         public IActionResult Add()
         {
             if (!IsLoggedIn())
@@ -17,22 +22,29 @@ namespace StudentBudgetTracker.Controllers
         }
 
         [HttpPost]
+        // Saves a new budget record submitted by the user.
         public IActionResult Add(Budget budget)
         {
+            // If no date is manually selected, the system uses the current date.
             if (budget.Date == default)
             {
                 budget.Date = DateTime.Now;
             }
-            budget.Id = nextId++; // assign ID
 
+            // Assigns a new unique ID to the record.
+            budget.Id = nextId++;
 
+            // Calculates the remaining balance for this entry.
             budget.RemainingBalance = budget.Allowance - budget.Expenses;
 
+            // Adds the new entry to the in-memory list.
             BudgetList.Add(budget);
 
+            // Redirects the user to the records page after saving.
             return RedirectToAction("Records");
         }
 
+        // Displays all saved budget records.
         public IActionResult Records()
         {
             if (!IsLoggedIn())
@@ -41,7 +53,7 @@ namespace StudentBudgetTracker.Controllers
             return View(BudgetList);
         }
 
-        // ===== EDIT =====
+        // Opens the Edit page for the selected record.
         public IActionResult Edit(int id)
         {
             var item = BudgetList.FirstOrDefault(x => x.Id == id);
@@ -49,26 +61,28 @@ namespace StudentBudgetTracker.Controllers
         }
 
         [HttpPost]
+        // Updates the selected record with the new values entered by the user.
         public IActionResult Edit(Budget updated)
         {
             var item = BudgetList.FirstOrDefault(x => x.Id == updated.Id);
 
             if (item != null)
             {
+                // Replaces the old values with the edited values.
                 item.Date = updated.Date;
                 item.Description = updated.Description;
                 item.Allowance = updated.Allowance;
                 item.Expenses = updated.Expenses;
                 item.Category = updated.Category;
 
-                // ✅ RECALCULATE ONLY THIS ITEM
+                // Recalculates the balance after editing.
                 item.RemainingBalance = item.Allowance - item.Expenses;
             }
 
             return RedirectToAction("Records");
         }
 
-        // ===== DELETE =====
+        // Removes a selected record from the list.
         public IActionResult Delete(int id)
         {
             var item = BudgetList.FirstOrDefault(x => x.Id == id);
@@ -79,12 +93,12 @@ namespace StudentBudgetTracker.Controllers
             return RedirectToAction("Records");
         }
 
-        // ===== RECALCULATE BALANCES =====
+        // Recomputes balances in date order when running balance logic is needed.
         private void RecalculateBalances()
         {
             decimal runningBalance = 0;
 
-            // 🔥 SORT BY DATE FIRST
+            // Sorts records by date before recalculating the running total.
             var sortedList = BudgetList.OrderBy(x => x.Date).ToList();
 
             foreach (var item in sortedList)
@@ -95,7 +109,7 @@ namespace StudentBudgetTracker.Controllers
                 item.RemainingBalance = runningBalance;
             }
 
-            // 🔥 UPDATE ORIGINAL LIST ORDER
+            // Replaces the original list with the sorted and recalculated version.
             BudgetList = sortedList;
         }
     }

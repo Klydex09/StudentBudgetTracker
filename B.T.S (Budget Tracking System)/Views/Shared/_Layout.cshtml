@@ -1,20 +1,30 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
+    @* Standard metadata for character encoding and responsive layout *@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    @* Displays the page title set by each individual view *@
     <title>@ViewData["Title"] - B.T.S__Budget_Tracking_System_</title>
+
     <script type="importmap"></script>
+
+    @* Loads Bootstrap and the project's own stylesheet *@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/B.T.S__Budget_Tracking_System_.styles.css" asp-append-version="true" />
 </head>
 <body>
+    @* Header shown on all pages with top navigation links *@
     <header>
         <h2>Student Budget Tracking</h2>
+
+        @* Mobile button used to toggle the sidebar navigation *@
         <button class="menu-toggle" id="menuToggle" type="button" aria-label="Toggle navigation">
             ☰
         </button>
+
         <div class="header-a">
             <a class="" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
             <a class="" asp-area="" asp-controller="Home" asp-action="About">About</a>
@@ -22,23 +32,19 @@
         </div>
     </header>
 
-
-
-
-
+    @* Main content container where the current page view is rendered *@
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-   
-
-
-
+    @* Loads JavaScript files used by the layout and pages *@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @* Allows pages to inject extra scripts when needed *@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

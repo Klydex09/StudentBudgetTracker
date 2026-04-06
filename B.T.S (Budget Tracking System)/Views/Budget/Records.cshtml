@@ -1,7 +1,5 @@
-﻿
-
+@* Sidebar navigation for moving between secured pages *@
 <aside>
-
     <nav>
         <a href="/Dashboard/Dashboard">Dashboard</a>
         <a href="/Budget/Add">Add Budget</a>
@@ -9,40 +7,44 @@
         <a href="/Report/Summary">Summary / Chartz</a>
         <a href="/Account/Logout">Logout</a>
     </nav>
-
 </aside>
 
 <main>
     <div class="dashboard-header">
+        @* Page heading for the records table *@
         <h1>BUDGET RECORDS</h1>
-        
     </div>
+
+    @* Table that displays every budget record passed from BudgetController.Records *@
     <table class="record-container">
-    <tr>
-        <th>Date</th>
-        <th>Description</th>
-        <th>Allowance</th>
-        <th>Expenses</th>
-        <th>Category</th>
-        <th>Remaining Balance</th>
-
-    </tr>
-    @foreach (var item in Model)
-    {
         <tr>
-            <td>@item.Date.ToShortDateString()</td>
-            <td>@item.Description</td>
-            <td>₱@item.Allowance</td>
-            <td>₱@item.Expenses</td>
-            <td>@item.Category</td>
-            <td>₱@item.RemainingBalance</td>
-
-            <td>
-                <a href="/Budget/Edit/@item.Id">Edit</a>
-                <a href="/Budget/Delete/@item.Id" onclick="return confirm('Delete this record?')">Delete</a>
-            </td>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Allowance</th>
+            <th>Expenses</th>
+            <th>Category</th>
+            <th>Remaining Balance</th>
         </tr>
-    }
-        
-</table>
+
+        @* Loops through each saved record and prints one row per item *@
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Date.ToShortDateString()</td>
+                <td>@item.Description</td>
+                <td>₱@item.Allowance</td>
+                <td>₱@item.Expenses</td>
+                <td>@item.Category</td>
+                <td>₱@item.RemainingBalance</td>
+
+                <td>
+                    @* Link for editing a selected record *@
+                    <a href="/Budget/Edit/@item.Id">Edit</a>
+
+                    @* Link for deleting a record, with a browser confirmation first *@
+                    <a href="/Budget/Delete/@item.Id" onclick="return confirm('Delete this record?')">Delete</a>
+                </td>
+            </tr>
+        }
+    </table>
 </main>

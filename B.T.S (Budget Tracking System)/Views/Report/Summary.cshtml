@@ -1,6 +1,5 @@
-﻿
+@* Sidebar navigation for secured modules *@
 <aside>
-
     <nav>
         <a href="/Dashboard/Dashboard">Dashboard</a>
         <a href="/Budget/Add">Add Budget</a>
@@ -8,84 +7,77 @@
         <a href="/Report/Summary">Summary / Chartz</a>
         <a href="/Account/Logout">Logout</a>
     </nav>
-
 </aside>
 
 <main>
     <div class="dashboard-header">
+        @* Heading for the report page *@
         <h1>SUMMARY CHARTS</h1>
     </div>
 
+    @* Summary cards showing totals based on the selected filter *@
     <div class="dashboard-status">
         <div class="status-box"><strong>Total Allowance:</strong> ₱@ViewBag.TotalAllowance</div>
         <div class="status-box"><strong>Total Expenses:</strong> ₱@ViewBag.TotalExpenses</div>
         <div class="status-box"><strong>Remaining Balance:</strong> ₱@ViewBag.RemainingBalance</div>
-
     </div>
 
-
     <div class="daily-chart">
-        <form method="get">       
-
-            <select name="filter" onchange="this.form.submit()">    
-
+        @* Filter form used to refresh the page by daily, weekly, monthly, or overall data *@
+        <form method="get">
+            <select name="filter" onchange="this.form.submit()">
                 <option value="overall" selected="@(ViewBag.Filter == "overall")">Overall</option>
                 <option value="daily" selected="@("daily" == ViewBag.Filter)">Daily</option>
                 <option value="weekly" selected="@("weekly" == ViewBag.Filter)">Weekly</option>
                 <option value="monthly" selected="@("monthly" == ViewBag.Filter)">Monthly</option>
-
-
             </select>
-
         </form>
 
+        @* Chart canvas where Chart.js will draw the report graph *@
         <div style="width:350px; margin:auto;">
             <canvas id="chart"></canvas>
         </div>
     </div>
 
+    @* Loads the Chart.js library from CDN *@
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Gets the chart labels and values prepared by the ReportController.
+        var labels = @Html.Raw(ViewBag.Labels)
+        var data = @Html.Raw(ViewBag.Data)
 
+        console.log(labels);
+        console.log(data);
 
-  
+        // Selects the canvas element where the chart will be rendered.
+        var ctx = document.getElementById('chart');
 
-
-
-        <script>
-
-            var labels = @Html.Raw(ViewBag.Labels)
-            var data = @Html.Raw(ViewBag.Data)
-
-            console.log(labels);
-            console.log(data);
-
-            var ctx = document.getElementById('chart');
-
-            if (ctx) {
+        if (ctx) {
+            // Creates a pie chart using the selected labels and expense values.
             new Chart(ctx, {
-            type: 'pie',
-            data: {
-            labels: labels,
-            datasets: [{
-            label: 'Budget Description: $',
-            data: data,
-            backgroundColor: [
-            'lightblue',
-            'lightcoral',
-            'lightgreen',
-            'lightcyan',
-            'lightgrey'
-            ],
-            borderColor: 'black',
-            borderWidth: 1
-            }]
-            }
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Budget Description: $',
+                        data: data,
+                        backgroundColor: [
+                            'lightblue',
+                            'lightcoral',
+                            'lightgreen',
+                            'lightcyan',
+                            'lightgrey'
+                        ],
+                        borderColor: 'black',
+                        borderWidth: 1
+                    }]
+                }
             });
-            } else {
+        } else {
+            // Logs an error in the browser console if the canvas is not found.
             console.log("Canvas not found");
-            }
-
-        </script>
+        }
+    </script>
 
 </main>

@@ -1,6 +1,5 @@
-﻿
+@* Sidebar navigation for secured modules *@
 <aside>
-
     <nav>
         <a href="/Dashboard/Dashboard">Dashboard</a>
         <a href="/Budget/Add">Add Budget</a>
@@ -8,29 +7,28 @@
         <a href="/Report/Summary">Summary / Chartz</a>
         <a href="/Account/Logout">Logout</a>
     </nav>
-
 </aside>
 
 <main>
 
     <div class="dashboard-header">
-    <h1>Student Allowance & Expense Tracker</h1>
-    <p>Welcome, @ViewBag.Username!</p>
+        @* Main title and welcome message from DashboardController *@
+        <h1>Student Allowance & Expense Tracker</h1>
+        <p>Welcome, @ViewBag.Username!</p>
     </div>
 
-
+    @* Summary cards that show the totals computed in the controller *@
     <div class="dashboard-status">
         <div class="status-box"><strong>Total Allowance:</strong> ₱@ViewBag.TotalAllowance</div>
         <div class="status-box"><strong>Total Expenses:</strong> ₱@ViewBag.TotalExpenses</div>
         <div class="status-box"><strong>Remaining Balance:</strong> ₱@ViewBag.RemainingBalance</div>
-
     </div>
 
     <div class="dashboard-recent">
         <h2>Recent Transaction</h2>
 
+        @* Table that displays only the most recent transactions *@
         <table class="record-container">
-
             <tr>
                 <th>Date</th>
                 <th>Description</th>
@@ -38,6 +36,7 @@
                 <th>Expenses</th>
             </tr>
 
+            @* Loops through the recent transactions passed from the controller *@
             @foreach (var item in ViewBag.RecentTransactions)
             {
                 <tr>
@@ -47,16 +46,13 @@
                     <td>$@item.Expenses</td>
                 </tr>
             }
-
         </table>
-
     </div>
 
+    @* Quick action buttons for common dashboard tasks *@
     <div class="dashboard-bottom-btn">
-    <a href="/Budget/Add" class="add-btn">Add Budget</a>
-    <a href="/Budget/Records" class="add-btn">View Records</a>
-
+        <a href="/Budget/Add" class="add-btn">Add Budget</a>
+        <a href="/Budget/Records" class="add-btn">View Records</a>
     </div>
-
 
 </main>
