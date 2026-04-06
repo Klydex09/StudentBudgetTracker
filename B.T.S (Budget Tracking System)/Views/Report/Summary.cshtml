@@ -1,83 +1,88 @@
-@* Sidebar navigation for secured modules *@
+@using StudentBudgetTracker.Models
+@model IEnumerable<Budget>
+@{
+    var selectedFilter = (ViewBag.Filter as string) ?? "overall";
+}
+
 <aside>
     <nav>
         <a href="/Dashboard/Dashboard">Dashboard</a>
         <a href="/Budget/Add">Add Budget</a>
         <a href="/Budget/Records">Budget History</a>
-        <a href="/Report/Summary">Summary / Chartz</a>
+        <a href="/Report/Summary">Summary / Charts</a>
         <a href="/Account/Logout">Logout</a>
     </nav>
 </aside>
 
 <main>
     <div class="dashboard-header">
-        @* Heading for the report page *@
-        <h1>SUMMARY CHARTS</h1>
+        <h1>Summary Charts</h1>
     </div>
 
-    @* Summary cards showing totals based on the selected filter *@
     <div class="dashboard-status">
-        <div class="status-box"><strong>Total Allowance:</strong> ₱@ViewBag.TotalAllowance</div>
-        <div class="status-box"><strong>Total Expenses:</strong> ₱@ViewBag.TotalExpenses</div>
-        <div class="status-box"><strong>Remaining Balance:</strong> ₱@ViewBag.RemainingBalance</div>
+        <div class="status-box"><strong>Total Allowance:</strong> &#8369;@ViewBag.TotalAllowance</div>
+        <div class="status-box"><strong>Total Expenses:</strong> &#8369;@ViewBag.TotalExpenses</div>
+        <div class="status-box"><strong>Remaining Balance:</strong> &#8369;@ViewBag.RemainingBalance</div>
     </div>
 
-    <div class="daily-chart">
-        @* Filter form used to refresh the page by daily, weekly, monthly, or overall data *@
-        <form method="get">
-            <select name="filter" onchange="this.form.submit()">
-                <option value="overall" selected="@(ViewBag.Filter == "overall")">Overall</option>
-                <option value="daily" selected="@("daily" == ViewBag.Filter)">Daily</option>
-                <option value="weekly" selected="@("weekly" == ViewBag.Filter)">Weekly</option>
-                <option value="monthly" selected="@("monthly" == ViewBag.Filter)">Monthly</option>
-            </select>
-        </form>
-
-        @* Chart canvas where Chart.js will draw the report graph *@
-        <div style="width:350px; margin:auto;">
-            <canvas id="chart"></canvas>
+    <form method="get" class="filter-panel">
+        <div class="filter-grid summary-filter-grid">
+            <div class="filter-group">
+                <label>Report Filter</label>
+                <select name="filter" onchange="this.form.submit()">
+                    <option value="overall" selected="@(selectedFilter == "overall" ? "selected" : null)">Overall</option>
+                    <option value="daily" selected="@(selectedFilter == "daily" ? "selected" : null)">Daily</option>
+                    <option value="weekly" selected="@(selectedFilter == "weekly" ? "selected" : null)">Weekly</option>
+                    <option value="monthly" selected="@(selectedFilter == "monthly" ? "selected" : null)">Monthly</option>
+                </select>
+            </div>
         </div>
-    </div>
+    </form>
 
-    @* Loads the Chart.js library from CDN *@
+    @if (!Model.Any())
+    {
+        <div class="empty-state">
+            <h2>No Summary Data</h2>
+            <p>@ViewBag.EmptySummaryMessage</p>
+        </div>
+    }
+    else
+    {
+        <div class="daily-chart">
+            <div class="chart-shell">
+                <canvas id="chart"></canvas>
+            </div>
+        </div>
+    }
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        // Gets the chart labels and values prepared by the ReportController.
-        var labels = @Html.Raw(ViewBag.Labels)
-        var data = @Html.Raw(ViewBag.Data)
+        var labels = @Html.Raw(ViewBag.Labels);
+        var data = @Html.Raw(ViewBag.Data);
+        var ctx = document.getElementById("chart");
 
-        console.log(labels);
-        console.log(data);
-
-        // Selects the canvas element where the chart will be rendered.
-        var ctx = document.getElementById('chart');
-
-        if (ctx) {
-            // Creates a pie chart using the selected labels and expense values.
+        if (ctx && labels.length > 0 && data.length > 0) {
             new Chart(ctx, {
-                type: 'pie',
+                type: "pie",
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Budget Description: $',
+                        label: "Expenses by Description",
                         data: data,
                         backgroundColor: [
-                            'lightblue',
-                            'lightcoral',
-                            'lightgreen',
-                            'lightcyan',
-                            'lightgrey'
+                            "#6cb4ee",
+                            "#ff8a80",
+                            "#81c784",
+                            "#ffd54f",
+                            "#9575cd",
+                            "#80cbc4"
                         ],
-                        borderColor: 'black',
-                        borderWidth: 1
+                        borderColor: "#ffffff",
+                        borderWidth: 2
                     }]
                 }
             });
-        } else {
-            // Logs an error in the browser console if the canvas is not found.
-            console.log("Canvas not found");
         }
     </script>
-
 </main>

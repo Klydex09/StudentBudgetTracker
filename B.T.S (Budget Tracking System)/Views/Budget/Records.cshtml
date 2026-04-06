@@ -1,50 +1,118 @@
-@* Sidebar navigation for moving between secured pages *@
+@model IEnumerable<StudentBudgetTracker.Models.Budget>
+@{
+    var selectedCategory = (ViewBag.Category as string) ?? "all";
+    var hasDateRange = !string.IsNullOrWhiteSpace(ViewBag.StartDate as string) || !string.IsNullOrWhiteSpace(ViewBag.EndDate as string);
+}
+
 <aside>
     <nav>
         <a href="/Dashboard/Dashboard">Dashboard</a>
         <a href="/Budget/Add">Add Budget</a>
         <a href="/Budget/Records">Budget History</a>
-        <a href="/Report/Summary">Summary / Chartz</a>
+        <a href="/Report/Summary">Summary / Charts</a>
         <a href="/Account/Logout">Logout</a>
     </nav>
 </aside>
 
 <main>
     <div class="dashboard-header">
-        @* Page heading for the records table *@
-        <h1>BUDGET RECORDS</h1>
+        <h1>Budget Records</h1>
     </div>
 
-    @* Table that displays every budget record passed from BudgetController.Records *@
-    <table class="record-container">
-        <tr>
-            <th>Date</th>
-            <th>Description</th>
-            <th>Allowance</th>
-            <th>Expenses</th>
-            <th>Category</th>
-            <th>Remaining Balance</th>
-        </tr>
+    <form method="get" class="filter-panel">
+        <div class="filter-grid records-filter-grid">
+            <div class="filter-group">
+                <label>Search</label>
+                <input type="text" name="searchTerm" value="@ViewBag.SearchTerm" placeholder="Search description, category, or remarks">
+            </div>
 
-        @* Loops through each saved record and prints one row per item *@
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Date.ToShortDateString()</td>
-                <td>@item.Description</td>
-                <td>₱@item.Allowance</td>
-                <td>₱@item.Expenses</td>
-                <td>@item.Category</td>
-                <td>₱@item.RemainingBalance</td>
+            <div class="filter-group">
+                <label>Category</label>
+                <select name="category">
+                    <option value="all" selected="@(selectedCategory == "all" ? "selected" : null)">All</option>
+                    <option value="Food" selected="@(selectedCategory == "Food" ? "selected" : null)">Food</option>
+                    <option value="Transportation" selected="@(selectedCategory == "Transportation" ? "selected" : null)">Transportation</option>
+                    <option value="School" selected="@(selectedCategory == "School" ? "selected" : null)">School</option>
+                    <option value="None" selected="@(selectedCategory == "None" ? "selected" : null)">None</option>
+                    <option value="Other" selected="@(selectedCategory == "Other" ? "selected" : null)">Other</option>
+                </select>
+            </div>
+        </div>
 
-                <td>
-                    @* Link for editing a selected record *@
-                    <a href="/Budget/Edit/@item.Id">Edit</a>
+        <div class="range-toggle-row">
+            <button type="button"
+                    class="icon-toggle"
+                    data-toggle-target="recordsRangeFields"
+                    data-toggle-text="Use Date Range|Hide Date Range"
+                    aria-expanded="@(hasDateRange.ToString().ToLower())">
+                <span class="icon-toggle-symbol">&#128197;</span>
+                <span class="icon-toggle-label">@(hasDateRange ? "Hide Date Range" : "Use Date Range")</span>
+            </button>
+        </div>
 
-                    @* Link for deleting a record, with a browser confirmation first *@
-                    <a href="/Budget/Delete/@item.Id" onclick="return confirm('Delete this record?')">Delete</a>
-                </td>
-            </tr>
-        }
-    </table>
+        <div id="recordsRangeFields" class="range-fields @(hasDateRange ? string.Empty : "hidden")">
+            <div class="filter-grid range-filter-grid">
+                <div class="filter-group">
+                    <label>Start Date</label>
+                    <input type="date" name="startDate" value="@ViewBag.StartDate">
+                </div>
+
+                <div class="filter-group">
+                    <label>End Date</label>
+                    <input type="date" name="endDate" value="@ViewBag.EndDate">
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-actions">
+            <button type="submit" class="add-btn">Apply Filters</button>
+            <a href="/Budget/Records" class="secondary-link">Clear Filters</a>
+        </div>
+    </form>
+
+    @if (Model.Any())
+    {
+        <div class="table-scroll">
+            <table class="record-container">
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Allowance</th>
+                    <th>Expenses</th>
+                    <th>Category</th>
+                    <th>Remarks</th>
+                    <th>Remaining Balance</th>
+                    <th>Actions</th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Date.ToShortDateString()</td>
+                        <td>@item.Description</td>
+                        <td>&#8369;@item.Allowance</td>
+                        <td>&#8369;@item.Expenses</td>
+                        <td>@item.Category</td>
+                        <td class="remarks-cell">
+                            <button type="button" class="remarks-toggle" title="Click to expand or collapse remarks">
+                                @(string.IsNullOrWhiteSpace(item.Remarks) ? "No remarks" : item.Remarks)
+                            </button>
+                        </td>
+                        <td>&#8369;@item.RemainingBalance</td>
+                        <td>
+                            <a href="/Budget/Edit/@item.Id">Edit</a>
+                            <a href="/Budget/Delete/@item.Id" onclick="return confirm('Delete this record?')">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <h2>No Records Found</h2>
+            <p>No budget entries match the current search or filter values.</p>
+        </div>
+    }
 </main>

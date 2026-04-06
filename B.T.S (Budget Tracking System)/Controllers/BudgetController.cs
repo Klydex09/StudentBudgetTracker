@@ -12,6 +12,8 @@ namespace StudentBudgetTracker.Controllers
         // Counter used to assign a unique ID to each new record.
         private static int nextId = 1;
 
+        private static readonly string[] PresetCategories = new[] { "None", "Food", "Transportation", "School" };
+
         // Opens the Add Budget page.
         public IActionResult Add()
         {
@@ -23,59 +25,108 @@ namespace StudentBudgetTracker.Controllers
 
         [HttpPost]
         // Saves a new budget record submitted by the user.
-        public IActionResult Add(Budget budget)
+        public IActionResult Add(Budget budget, string? customCategory)
         {
-            // If no date is manually selected, the system uses the current date.
+            if (!IsLoggedIn())
+                return RedirectToLogin();
+
             if (budget.Date == default)
             {
                 budget.Date = DateTime.Now;
             }
 
-            // Assigns a new unique ID to the record.
+            // Replaces the "Other" option with the user's custom category text.
+            if (string.Equals(budget.Category, "Other", StringComparison.OrdinalIgnoreCase))
+            {
+                budget.Category = string.IsNullOrWhiteSpace(customCategory) ? "Other" : customCategory.Trim();
+            }
+
             budget.Id = nextId++;
-
-            // Calculates the remaining balance for this entry.
             budget.RemainingBalance = budget.Allowance - budget.Expenses;
-
-            // Adds the new entry to the in-memory list.
             BudgetList.Add(budget);
 
-            // Redirects the user to the records page after saving.
             return RedirectToAction("Records");
         }
 
-        // Displays all saved budget records.
-        public IActionResult Records()
+        // Displays all saved budget records and applies search/filter options.
+        public IActionResult Records(string? searchTerm, string category = "all", DateTime? startDate = null, DateTime? endDate = null)
         {
             if (!IsLoggedIn())
                 return RedirectToLogin();
 
-            return View(BudgetList);
+            IEnumerable<Budget> filteredBudgets = BudgetList;
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                filteredBudgets = filteredBudgets.Where(x =>
+                    x.Description.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                    x.Category.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                    (!string.IsNullOrWhiteSpace(x.Remarks) && x.Remarks.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)));
+            }
+
+            if (!string.Equals(category, "all", StringComparison.OrdinalIgnoreCase))
+            {
+                if (string.Equals(category, "Other", StringComparison.OrdinalIgnoreCase))
+                {
+                    filteredBudgets = filteredBudgets.Where(x => !PresetCategories.Contains(x.Category, StringComparer.OrdinalIgnoreCase));
+                }
+                else
+                {
+                    filteredBudgets = filteredBudgets.Where(x => x.Category.Equals(category, StringComparison.OrdinalIgnoreCase));
+                }
+            }
+
+            if (startDate.HasValue)
+            {
+                filteredBudgets = filteredBudgets.Where(x => x.Date.Date >= startDate.Value.Date);
+            }
+
+            if (endDate.HasValue)
+            {
+                filteredBudgets = filteredBudgets.Where(x => x.Date.Date <= endDate.Value.Date);
+            }
+
+            var records = filteredBudgets
+                .OrderByDescending(x => x.Date)
+                .ToList();
+
+            ViewBag.SearchTerm = searchTerm;
+            ViewBag.Category = category;
+            ViewBag.StartDate = startDate?.ToString("yyyy-MM-dd");
+            ViewBag.EndDate = endDate?.ToString("yyyy-MM-dd");
+
+            return View(records);
         }
 
         // Opens the Edit page for the selected record.
         public IActionResult Edit(int id)
         {
+            if (!IsLoggedIn())
+                return RedirectToLogin();
+
             var item = BudgetList.FirstOrDefault(x => x.Id == id);
             return View(item);
         }
 
         [HttpPost]
         // Updates the selected record with the new values entered by the user.
-        public IActionResult Edit(Budget updated)
+        public IActionResult Edit(Budget updated, string? customCategory)
         {
+            if (!IsLoggedIn())
+                return RedirectToLogin();
+
             var item = BudgetList.FirstOrDefault(x => x.Id == updated.Id);
 
             if (item != null)
             {
-                // Replaces the old values with the edited values.
                 item.Date = updated.Date;
                 item.Description = updated.Description;
                 item.Allowance = updated.Allowance;
                 item.Expenses = updated.Expenses;
-                item.Category = updated.Category;
-
-                // Recalculates the balance after editing.
+                item.Category = string.Equals(updated.Category, "Other", StringComparison.OrdinalIgnoreCase)
+                    ? (string.IsNullOrWhiteSpace(customCategory) ? "Other" : customCategory.Trim())
+                    : updated.Category;
+                item.Remarks = updated.Remarks;
                 item.RemainingBalance = item.Allowance - item.Expenses;
             }
 
@@ -85,6 +136,9 @@ namespace StudentBudgetTracker.Controllers
         // Removes a selected record from the list.
         public IActionResult Delete(int id)
         {
+            if (!IsLoggedIn())
+                return RedirectToLogin();
+
             var item = BudgetList.FirstOrDefault(x => x.Id == id);
 
             if (item != null)
@@ -98,7 +152,6 @@ namespace StudentBudgetTracker.Controllers
         {
             decimal runningBalance = 0;
 
-            // Sorts records by date before recalculating the running total.
             var sortedList = BudgetList.OrderBy(x => x.Date).ToList();
 
             foreach (var item in sortedList)
@@ -109,7 +162,6 @@ namespace StudentBudgetTracker.Controllers
                 item.RemainingBalance = runningBalance;
             }
 
-            // Replaces the original list with the sorted and recalculated version.
             BudgetList = sortedList;
         }
     }

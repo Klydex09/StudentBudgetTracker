@@ -4,49 +4,67 @@
         <a href="/Dashboard/Dashboard">Dashboard</a>
         <a href="/Budget/Add">Add Budget</a>
         <a href="/Budget/Records">Budget History</a>
-        <a href="/Report/Summary">Summary / Chartz</a>
+        <a href="/Report/Summary">Summary / Charts</a>
         <a href="/Account/Logout">Logout</a>
     </nav>
 </aside>
 
 <main>
-
     <div class="dashboard-header">
         @* Main title and welcome message from DashboardController *@
-        <h1>Student Allowance & Expense Tracker</h1>
+        <h1>Student Allowance and Expense Tracker</h1>
         <p>Welcome, @ViewBag.Username!</p>
     </div>
 
+    @if (!string.IsNullOrWhiteSpace(ViewBag.BalanceAlertMessage))
+    {
+        @* Warning shown when the remaining balance is too low or already negative *@
+        <div class="status-alert @ViewBag.BalanceAlertClass">
+            @ViewBag.BalanceAlertMessage
+        </div>
+    }
+
     @* Summary cards that show the totals computed in the controller *@
     <div class="dashboard-status">
-        <div class="status-box"><strong>Total Allowance:</strong> ₱@ViewBag.TotalAllowance</div>
-        <div class="status-box"><strong>Total Expenses:</strong> ₱@ViewBag.TotalExpenses</div>
-        <div class="status-box"><strong>Remaining Balance:</strong> ₱@ViewBag.RemainingBalance</div>
+        <div class="status-box"><strong>Total Allowance:</strong> &#8369;@ViewBag.TotalAllowance</div>
+        <div class="status-box"><strong>Total Expenses:</strong> &#8369;@ViewBag.TotalExpenses</div>
+        <div class="status-box"><strong>Remaining Balance:</strong> &#8369;@ViewBag.RemainingBalance</div>
     </div>
 
     <div class="dashboard-recent">
-        <h2>Recent Transaction</h2>
+        <h2>Recent Transactions</h2>
 
-        @* Table that displays only the most recent transactions *@
-        <table class="record-container">
-            <tr>
-                <th>Date</th>
-                <th>Description</th>
-                <th>Allowance</th>
-                <th>Expenses</th>
-            </tr>
-
-            @* Loops through the recent transactions passed from the controller *@
-            @foreach (var item in ViewBag.RecentTransactions)
-            {
+        @if (!string.IsNullOrWhiteSpace(ViewBag.EmptyDashboardMessage))
+        {
+            <div class="empty-state">
+                <p>@ViewBag.EmptyDashboardMessage</p>
+            </div>
+        }
+        else
+        {
+            @* Table that displays only the most recent transactions *@
+            <table class="record-container">
                 <tr>
-                    <td>@item.Date.ToShortDateString()</td>
-                    <td>@item.Description</td>
-                    <td>$@item.Allowance</td>
-                    <td>$@item.Expenses</td>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Allowance</th>
+                    <th>Expenses</th>
+                    <th>Remaining Balance</th>
                 </tr>
-            }
-        </table>
+
+                @* Loops through the recent transactions passed from the controller *@
+                @foreach (var item in ViewBag.RecentTransactions)
+                {
+                    <tr>
+                        <td>@item.Date.ToShortDateString()</td>
+                        <td>@item.Description</td>
+                        <td>&#8369;@item.Allowance</td>
+                        <td>&#8369;@item.Expenses</td>
+                        <td>&#8369;@item.RemainingBalance</td>
+                    </tr>
+                }
+            </table>
+        }
     </div>
 
     @* Quick action buttons for common dashboard tasks *@
@@ -54,5 +72,4 @@
         <a href="/Budget/Add" class="add-btn">Add Budget</a>
         <a href="/Budget/Records" class="add-btn">View Records</a>
     </div>
-
 </main>

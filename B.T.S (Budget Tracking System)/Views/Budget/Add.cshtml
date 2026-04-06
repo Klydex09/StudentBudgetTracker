@@ -1,62 +1,63 @@
-@* Sidebar navigation for the main modules of the system *@
 <aside>
     <nav>
         <a href="/Dashboard/Dashboard">Dashboard</a>
         <a href="/Budget/Add">Add Budget</a>
         <a href="/Budget/Records">Budget History</a>
-        <a href="/Report/Summary">Summary / Chartz</a>
+        <a href="/Report/Summary">Summary / Charts</a>
         <a href="/Account/Logout">Logout</a>
     </nav>
 </aside>
 
 <main>
     <div class="add-container">
+        <h1 class="add-title">Add Budget</h1>
 
-        @* Title of the Add Budget page *@
-        <h1 class="add-title">💳 Add Budget</h1>
-
-        @* Form used to submit a new budget record to BudgetController.Add *@
         <form method="post" class="add-form">
-
-            @* Allowance amount entered by the user *@
             <div class="add-group">
                 <label>Allowance</label>
                 <input type="number" name="Allowance" step="0.01" placeholder="Enter amount">
             </div>
 
-            @* Expense amount entered by the user *@
             <div class="add-group">
                 <label>Expenses</label>
                 <input type="number" name="Expenses" step="0.01" placeholder="Enter amount" required>
             </div>
 
-            @* Short description of the budget entry *@
             <div class="add-group">
                 <label>Description</label>
                 <input type="text" name="Description" placeholder="Enter description" required>
             </div>
 
-            @* Category of the budget entry *@
             <div class="add-group">
                 <label>Type</label>
-                <select name="Category">
+                <select name="Category" class="category-select" data-custom-target="addCustomCategory">
                     <option>None</option>
                     <option>Food</option>
                     <option>Transportation</option>
                     <option>School</option>
+                    <option>Other</option>
                 </select>
             </div>
 
-            @* Date field that defaults to the current date but can still be modified *@
+            <div id="addCustomCategory" class="add-group custom-category-group hidden">
+                <label>Specify Other Category</label>
+                <input type="text" name="customCategory" placeholder="Type your custom category">
+            </div>
+
             <div class="add-group">
                 <label>Date</label>
                 <input type="date" name="Date" value="@DateTime.Now.ToString("yyyy-MM-dd")" required>
             </div>
 
-            @* Button used to save the new record *@
-            <button type="submit" class="add-btn">Add Budget</button>
+            <div class="add-group">
+                <label>Remarks</label>
+                <textarea name="Remarks" rows="4" placeholder="Add notes or remarks about this entry"></textarea>
+            </div>
 
+            <div class="form-actions">
+                <button type="submit" class="add-btn">Add Budget</button>
+                <button type="reset" class="secondary-btn">Clear Form</button>
+            </div>
         </form>
-
     </div>
 </main>

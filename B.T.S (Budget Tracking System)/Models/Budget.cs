@@ -23,6 +23,9 @@ namespace StudentBudgetTracker.Models
         // Stores the category of the expense such as Food or Transportation.
         public required string Category { get; set; }
 
+        // Optional notes that explain more details about the record.
+        public string? Remarks { get; set; }
+
         // Stores the computed balance after subtracting expenses from allowance.
         public decimal RemainingBalance { get; set; }
     }

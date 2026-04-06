@@ -25,14 +25,33 @@ namespace StudentBudgetTracker.Controllers
             ViewBag.TotalExpenses = totalExpenses;
             ViewBag.RemainingBalance = remaining;
 
-            // Sends the username to the view for the welcome message.
-            ViewBag.Username = "student";
+            // Sends the current session username to the view for the welcome message.
+            ViewBag.Username = HttpContext.Session.GetString("Username") ?? "student";
 
             // Gets the three most recent records for the Recent Transactions table.
             ViewBag.RecentTransactions = budgets
                 .OrderByDescending(x => x.Date)
                 .Take(3)
                 .ToList();
+
+            // Displays a low-balance warning when the remaining balance is almost used up.
+            if (budgets.Any())
+            {
+                if (remaining < 0)
+                {
+                    ViewBag.BalanceAlertMessage = "Warning: Your expenses are higher than your allowance.";
+                    ViewBag.BalanceAlertClass = "alert-danger";
+                }
+                else if (totalAllowance > 0 && remaining <= totalAllowance * 0.20m)
+                {
+                    ViewBag.BalanceAlertMessage = "Low balance alert: You are close to using your budget.";
+                    ViewBag.BalanceAlertClass = "alert-warning";
+                }
+            }
+            else
+            {
+                ViewBag.EmptyDashboardMessage = "No budget records yet. Add your first budget entry to see dashboard data.";
+            }
 
             return View();
         }
